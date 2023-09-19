@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random US Phone Number Generator</title>
+</head>
+<body>
+    <h1>Random US Phone Number Generator</h1>
+    <button id="generateButton">Generate Random Phone Number</button>
+    <p id="phoneNumber"></p>
+
+    <script>
+        function generateRandomPhoneNumber() {
+            const areaCode = Math.floor(Math.random() * 800) + 200; // Random area code between 200 and 999
+            const prefix = Math.floor(Math.random() * 800) + 200;   // Random prefix between 200 and 999
+            const lineNumber = Math.floor(Math.random() * 9000) + 1000; // Random 4-digit line number between 1000 and 9999
+
+            return `(${areaCode}) ${prefix}-${lineNumber}`;
+        }
+
+        const generateButton = document.getElementById("generateButton");
+        const phoneNumberElement = document.getElementById("phoneNumber");
+
+        generateButton.addEventListener("click", () => {
+            const randomPhoneNumber = generateRandomPhoneNumber();
+            phoneNumberElement.textContent = `Random Phone Number: ${randomPhoneNumber}`;
+        });
+    </script>
+</body>
+</html>
