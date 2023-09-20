@@ -77,7 +77,6 @@
     </table>
 
     <script>
-
 const areaSelect = document.getElementById("areaSelect");
 
 
@@ -137,6 +136,23 @@ function generateAndDisplayPhoneNumbers() {
 const generateButton = document.getElementById("generateButton");
 
 generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
+
+        // About Section
+        const aboutSection = document.createElement("section");
+        aboutSection.innerHTML = `
+            <h2>About Phone Number Generator</h2>
+            <p>Welcome to the Phone Number Generator, a simple web application that lets you generate random US phone numbers with area codes from various regions across the United States.</p>
+            <p><strong>How It Works:</strong></p>
+            <ul>
+                <li>Select an Area: Choose a specific US region from the dropdown list or select "Random" to generate numbers from any area.</li>
+                <li>Generate Phone Numbers: Click the "Generate Phone Number" button to create a list of random US phone numbers based on your area selection.</li>
+                <li>Explore the Results: The generated phone numbers are displayed in a table, including both the phone number and the corresponding area.</li>
+            </ul>
+            <p>Whether you need placeholder phone numbers for testing, want to explore US area codes, or simply enjoy randomness, the Phone Number Generator has you covered.</p>
+            <p><em>Note: This application is for demonstration and educational purposes only and does not provide real phone numbers.</em></p>
+            <p>Enjoy exploring US area codes and generating random phone numbers with ease!</p>
+        `;
+        document.body.appendChild(aboutSection);
     </script>
 </body>
 </html>
