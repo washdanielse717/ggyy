@@ -31,21 +31,46 @@
             background-color: #0056b3;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        li {
-            font-size: 24px;
-            margin: 10px 0;
+        thead {
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
     <h1>Random US Phone Number Generator</h1>
     <button id="generateButton">Generate More Phone Numbers</button>
-    <ul id="phoneNumberList"></ul>
+    <table id="phoneNumberTable">
+        <thead>
+            <tr>
+                <th>Phone Number</th>
+            </tr>
+        </thead>
+        <tbody id="phoneNumberList">
+            <!-- 表格行将在JavaScript中生成 -->
+        </tbody>
+    </table>
 
     <script>
         function generateRandomPhoneNumber() {
@@ -57,14 +82,15 @@
         }
 
         function generateAndDisplayPhoneNumbers() {
-            const phoneNumberList = document.getElementById("phoneNumberList");
-            phoneNumberList.innerHTML = '';
+            const phoneNumberTable = document.getElementById("phoneNumberTable");
+            const tbody = document.getElementById("phoneNumberList");
+            tbody.innerHTML = '';
 
             for (let i = 0; i < 20; i++) {
                 const randomPhoneNumber = generateRandomPhoneNumber();
-                const li = document.createElement("li");
-                li.textContent = `Random Phone Number: ${randomPhoneNumber}`;
-                phoneNumberList.appendChild(li);
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.textContent = randomPhoneNumber;
             }
         }
 
