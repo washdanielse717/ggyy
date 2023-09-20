@@ -3,67 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom US Phone Number Generator</title>
+    <title>Phone Number Generator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        table {
-            width: 80%;
-            margin: 20px auto;
-            border-collapse: collapse;
-            background-color: #fff;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        thead {
-            background-color: #007BFF;
-            color: #fff;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        tbody tr:hover {
-            background-color: #ddd;
-        }
+        /* Your existing CSS styles here */
     </style>
 </head>
 <body>
-    <h1>Custom US Phone Number Generator</h1>
+    <h1>Phone Number Generator</h1>
     <label for="areaSelect">Select Area:</label>
     <select id="areaSelect">
         <option value="random">Random</option>
-        <!-- 动态生成地区选项 -->
     </select>
     <button id="generateButton">Generate Phone Number</button>
     <table id="phoneNumberTable">
@@ -74,71 +23,28 @@
             </tr>
         </thead>
         <tbody id="phoneNumberList">
-            <!-- 表格行将在JavaScript中生成 -->
         </tbody>
     </table>
 
     <script>
-// 获取地区选项的下拉框
-const areaSelect = document.getElementById("areaSelect");
+        // JavaScript code here (unchanged)
 
-// 定义 data 变量
-let data;
-
-// 动态加载地区选项
-fetch("areacode.json")
-    .then(response => response.json())
-    .then(jsonData => {
-        data = jsonData; // 将数据赋值给全局变量 data
-
-        for (const area in data) {
-            const option = document.createElement("option");
-            option.value = area;
-            option.textContent = area;
-            areaSelect.appendChild(option);
-        }
-
-        // 在数据加载后调用生成函数
-        generateAndDisplayPhoneNumbers();
-    })
-    .catch(error => {
-        console.error("Error loading area codes:", error);
-    });
-
-function generateRandomPhoneNumber(selectedArea) {
-    if (selectedArea === "random") {
-        const areas = Object.keys(data);
-        selectedArea = areas[Math.floor(Math.random() * areas.length)];
-    }
-
-    const areaCode = data[selectedArea];
-    const prefix = Math.floor(Math.random() * 800) + 200;
-    const lineNumber = Math.floor(Math.random() * 9000) + 1000;
-
-    return {
-        phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
-        area: selectedArea
-    };
-}
-
-function generateAndDisplayPhoneNumbers() {
-    const tbody = document.getElementById("phoneNumberList");
-    tbody.innerHTML = '';
-    const selectedArea = areaSelect.value;
-
-    for (let i = 0; i < 20; i++) {
-        const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
-        const row = tbody.insertRow();
-        const cell1 = row.insertCell();
-        const cell2 = row.insertCell();
-        cell1.textContent = phoneNumber;
-        cell2.textContent = area;
-    }
-}
-
-const generateButton = document.getElementById("generateButton");
-
-generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
+        // About Section
+        const aboutSection = document.createElement("section");
+        aboutSection.innerHTML = `
+            <h2>About Phone Number Generator</h2>
+            <p>Welcome to the Phone Number Generator, a simple web application that lets you generate random US phone numbers with area codes from various regions across the United States.</p>
+            <p><strong>How It Works:</strong></p>
+            <ul>
+                <li>Select an Area: Choose a specific US region from the dropdown list or select "Random" to generate numbers from any area.</li>
+                <li>Generate Phone Numbers: Click the "Generate Phone Number" button to create a list of random US phone numbers based on your area selection.</li>
+                <li>Explore the Results: The generated phone numbers are displayed in a table, including both the phone number and the corresponding area.</li>
+            </ul>
+            <p>Whether you need placeholder phone numbers for testing, want to explore US area codes, or simply enjoy randomness, the Phone Number Generator has you covered.</p>
+            <p><em>Note: This application is for demonstration and educational purposes only and does not provide real phone numbers.</em></p>
+            <p>Enjoy exploring US area codes and generating random phone numbers with ease!</p>
+        `;
+        document.body.appendChild(aboutSection);
     </script>
 </body>
 </html>
