@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random US Phone Number Generator</title>
+    <title>Custom US Phone Number Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -59,12 +59,18 @@
     </style>
 </head>
 <body>
-    <h1>Random US Phone Number Generator</h1>
-    <button id="generateButton">Generate More Phone Numbers</button>
+    <h1>Custom US Phone Number Generator</h1>
+    <label for="areaSelect">Select Area:</label>
+    <select id="areaSelect">
+        <option value="random">Random</option>
+        <!-- 动态生成地区选项 -->
+    </select>
+    <button id="generateButton">Generate Phone Number</button>
     <table id="phoneNumberTable">
         <thead>
             <tr>
                 <th>Phone Number</th>
+                <th>Area</th>
             </tr>
         </thead>
         <tbody id="phoneNumberList">
@@ -73,24 +79,52 @@
     </table>
 
     <script>
-        function generateRandomPhoneNumber() {
-            const areaCode = Math.floor(Math.random() * 800) + 200; // Random area code between 200 and 999
-            const prefix = Math.floor(Math.random() * 800) + 200;   // Random prefix between 200 and 999
-            const lineNumber = Math.floor(Math.random() * 9000) + 1000; // Random 4-digit line number between 1000 and 9999
+        // 获取地区选项的下拉框
+        const areaSelect = document.getElementById("areaSelect");
 
-            return `(${areaCode}) ${prefix}-${lineNumber}`;
+        // 动态加载地区选项
+        fetch("areacode.json")
+            .then(response => response.json())
+            .then(data => {
+                for (const area in data) {
+                    const option = document.createElement("option");
+                    option.value = area;
+                    option.textContent = area;
+                    areaSelect.appendChild(option);
+                }
+            })
+            .catch(error => {
+                console.error("Error loading area codes:", error);
+            });
+
+        function generateRandomPhoneNumber(selectedArea) {
+            if (selectedArea === "random") {
+                const areas = Object.keys(data);
+                selectedArea = areas[Math.floor(Math.random() * areas.length)];
+            }
+
+            const areaCode = data[selectedArea];
+            const prefix = Math.floor(Math.random() * 800) + 200;
+            const lineNumber = Math.floor(Math.random() * 9000) + 1000;
+
+            return {
+                phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
+                area: selectedArea
+            };
         }
 
         function generateAndDisplayPhoneNumbers() {
-            const phoneNumberTable = document.getElementById("phoneNumberTable");
             const tbody = document.getElementById("phoneNumberList");
             tbody.innerHTML = '';
+            const selectedArea = areaSelect.value;
 
             for (let i = 0; i < 20; i++) {
-                const randomPhoneNumber = generateRandomPhoneNumber();
+                const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
                 const row = tbody.insertRow();
-                const cell = row.insertCell();
-                cell.textContent = randomPhoneNumber;
+                const cell1 = row.insertCell();
+                const cell2 = row.insertCell();
+                cell1.textContent = phoneNumber;
+                cell2.textContent = area;
             }
         }
 
@@ -98,7 +132,7 @@
 
         generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
 
-        // Initial generation of phone numbers
+        // 初始化生成电话号码
         generateAndDisplayPhoneNumbers();
     </script>
 </body>
