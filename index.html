@@ -79,68 +79,66 @@
     </table>
 
     <script>
-    	  let data; // 声明全局变量 data
-        // 获取地区选项的下拉框
-        const areaSelect = document.getElementById("areaSelect");
+// 获取地区选项的下拉框
+const areaSelect = document.getElementById("areaSelect");
 
-        // 动态加载地区选项
-				fetch("areacode.json")
-				    .then(response => response.json())
-				    .then(jsonData => {
-				        data = jsonData; // 将数据赋值给全局变量 data
+// 定义 data 变量
+let data;
 
-				        for (const area in data) {
-				            const option = document.createElement("option");
-				            option.value = area;
-				            option.textContent = area;
-				            areaSelect.appendChild(option);
-				        }
+// 动态加载地区选项
+fetch("areacode.json")
+    .then(response => response.json())
+    .then(jsonData => {
+        data = jsonData; // 将数据赋值给全局变量 data
 
-				        // 在数据加载后调用生成函数
-				        generateAndDisplayPhoneNumbers();
-				    })
-				    .catch(error => {
-				        console.error("Error loading area codes:", error);
-				    });
-
-
-        function generateRandomPhoneNumber(selectedArea) {
-            if (selectedArea === "random") {
-                const areas = Object.keys(data);
-                selectedArea = areas[Math.floor(Math.random() * areas.length)];
-            }
-
-            const areaCode = data[selectedArea];
-            const prefix = Math.floor(Math.random() * 800) + 200;
-            const lineNumber = Math.floor(Math.random() * 9000) + 1000;
-
-            return {
-                phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
-                area: selectedArea
-            };
+        for (const area in data) {
+            const option = document.createElement("option");
+            option.value = area;
+            option.textContent = area;
+            areaSelect.appendChild(option);
         }
 
-        function generateAndDisplayPhoneNumbers() {
-            const tbody = document.getElementById("phoneNumberList");
-            tbody.innerHTML = '';
-            const selectedArea = areaSelect.value;
-
-            for (let i = 0; i < 20; i++) {
-                const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
-                const row = tbody.insertRow();
-                const cell1 = row.insertCell();
-                const cell2 = row.insertCell();
-                cell1.textContent = phoneNumber;
-                cell2.textContent = area;
-            }
-        }
-
-        const generateButton = document.getElementById("generateButton");
-
-        generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
-
-        // 初始化生成电话号码
+        // 在数据加载后调用生成函数
         generateAndDisplayPhoneNumbers();
+    })
+    .catch(error => {
+        console.error("Error loading area codes:", error);
+    });
+
+function generateRandomPhoneNumber(selectedArea) {
+    if (selectedArea === "random") {
+        const areas = Object.keys(data);
+        selectedArea = areas[Math.floor(Math.random() * areas.length)];
+    }
+
+    const areaCode = data[selectedArea];
+    const prefix = Math.floor(Math.random() * 800) + 200;
+    const lineNumber = Math.floor(Math.random() * 9000) + 1000;
+
+    return {
+        phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
+        area: selectedArea
+    };
+}
+
+function generateAndDisplayPhoneNumbers() {
+    const tbody = document.getElementById("phoneNumberList");
+    tbody.innerHTML = '';
+    const selectedArea = areaSelect.value;
+
+    for (let i = 0; i < 20; i++) {
+        const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
+        const row = tbody.insertRow();
+        const cell1 = row.insertCell();
+        const cell2 = row.insertCell();
+        cell1.textContent = phoneNumber;
+        cell2.textContent = area;
+    }
+}
+
+const generateButton = document.getElementById("generateButton");
+
+generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
     </script>
 </body>
 </html>
