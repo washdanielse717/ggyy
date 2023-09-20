@@ -77,78 +77,66 @@
     </table>
 
     <script>
-        // 获取地区选项的下拉框
-        const areaSelect = document.getElementById("areaSelect");
 
-        // 动态加载地区选项
-        fetch("areacode.json")
-            .then(response => response.json())
-            .then(data => {
-                for (const area in data) {
-                    const option = document.createElement("option");
-                    option.value = area;
-                    option.textContent = area;
-                    areaSelect.appendChild(option);
-                }
-            })
-            .catch(error => {
-                console.error("Error loading area codes:", error);
-            });
+const areaSelect = document.getElementById("areaSelect");
 
-        function generateRandomPhoneNumber(selectedArea) {
-            if (selectedArea === "random") {
-                const areas = Object.keys(data);
-                selectedArea = areas[Math.floor(Math.random() * areas.length)];
-            }
 
-            const areaCode = data[selectedArea];
-            const prefix = Math.floor(Math.random() * 800) + 200;
-            const lineNumber = Math.floor(Math.random() * 9000) + 1000;
+let data;
 
-            return {
-                phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
-                area: selectedArea
-            };
+
+fetch("areacode.json")
+    .then(response => response.json())
+    .then(jsonData => {
+        data = jsonData; 
+
+        for (const area in data) {
+            const option = document.createElement("option");
+            option.value = area;
+            option.textContent = area;
+            areaSelect.appendChild(option);
         }
 
-        function generateAndDisplayPhoneNumbers() {
-            const tbody = document.getElementById("phoneNumberList");
-            tbody.innerHTML = '';
-            const selectedArea = areaSelect.value;
-
-            for (let i = 0; i < 20; i++) {
-                const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
-                const row = tbody.insertRow();
-                const cell1 = row.insertCell();
-                const cell2 = row.insertCell();
-                cell1.textContent = phoneNumber;
-                cell2.textContent = area;
-            }
-        }
-
-        const generateButton = document.getElementById("generateButton");
-
-        generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
-
-        // 初始化生成电话号码
+       
         generateAndDisplayPhoneNumbers();
+    })
+    .catch(error => {
+        console.error("Error loading area codes:", error);
+    });
 
-        // About Section
-        const aboutSection = document.createElement("section");
-        aboutSection.innerHTML = `
-            <h2>About Phone Number Generator</h2>
-            <p>Welcome to the Phone Number Generator, a simple web application that lets you generate random US phone numbers with area codes from various regions across the United States.</p>
-            <p><strong>How It Works:</strong></p>
-            <ul>
-                <li>Select an Area: Choose a specific US region from the dropdown list or select "Random" to generate numbers from any area.</li>
-                <li>Generate Phone Numbers: Click the "Generate Phone Number" button to create a list of random US phone numbers based on your area selection.</li>
-                <li>Explore the Results: The generated phone numbers are displayed in a table, including both the phone number and the corresponding area.</li>
-            </ul>
-            <p>Whether you need placeholder phone numbers for testing, want to explore US area codes, or simply enjoy randomness, the Phone Number Generator has you covered.</p>
-            <p><em>Note: This application is for demonstration and educational purposes only and does not provide real phone numbers.</em></p>
-            <p>Enjoy exploring US area codes and generating random phone numbers with ease!</p>
-        `;
-        document.body.appendChild(aboutSection);
+function generateRandomPhoneNumber(selectedArea) {
+    if (selectedArea === "random") {
+        const areas = Object.keys(data);
+        selectedArea = areas[Math.floor(Math.random() * areas.length)];
+    }
+
+    const areaCode = data[selectedArea];
+    const prefix = Math.floor(Math.random() * 800) + 200;
+    const lineNumber = Math.floor(Math.random() * 9000) + 1000;
+
+    return {
+        phoneNumber: `(${areaCode}) ${prefix}-${lineNumber}`,
+        area: selectedArea
+    };
+}
+
+function generateAndDisplayPhoneNumbers() {
+    const tbody = document.getElementById("phoneNumberList");
+    tbody.innerHTML = '';
+    const selectedArea = areaSelect.value;
+
+    for (let i = 0; i < 20; i++) {
+        const { phoneNumber, area } = generateRandomPhoneNumber(selectedArea);
+        const row = tbody.insertRow();
+        const cell1 = row.insertCell();
+        const cell2 = row.insertCell();
+        cell1.textContent = phoneNumber;
+        cell2.textContent = area;
+    }
+}
+
+const generateButton = document.getElementById("generateButton");
+
+generateButton.addEventListener("click", generateAndDisplayPhoneNumbers);
     </script>
 </body>
 </html>
