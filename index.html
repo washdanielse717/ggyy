@@ -84,19 +84,25 @@
         const areaSelect = document.getElementById("areaSelect");
 
         // 动态加载地区选项
-        fetch("areacode.json")
-            .then(response => response.json())
-            .then(data => {
-                for (const area in data) {
-                    const option = document.createElement("option");
-                    option.value = area;
-                    option.textContent = area;
-                    areaSelect.appendChild(option);
-                }
-            })
-            .catch(error => {
-                console.error("Error loading area codes:", error);
-            });
+				fetch("areacode.json")
+				    .then(response => response.json())
+				    .then(jsonData => {
+				        data = jsonData; // 将数据赋值给全局变量 data
+
+				        for (const area in data) {
+				            const option = document.createElement("option");
+				            option.value = area;
+				            option.textContent = area;
+				            areaSelect.appendChild(option);
+				        }
+
+				        // 在数据加载后调用生成函数
+				        generateAndDisplayPhoneNumbers();
+				    })
+				    .catch(error => {
+				        console.error("Error loading area codes:", error);
+				    });
+
 
         function generateRandomPhoneNumber(selectedArea) {
             if (selectedArea === "random") {
